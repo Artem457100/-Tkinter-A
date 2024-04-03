@@ -1,27 +1,32 @@
 from tkinter import *
 from tkinter import ttk
+f = 0
+def delete_note():
+    selection = notes.curselection()
+    notes.delete(selection[0])
 
 
 def add_note():
-    note1 = ttk.Button(text=f +"." + entry.get, command=add_note)
-    note1.pack(anchor=NW, padx=6, pady=6)
+    global f
+    f +=1
+    new_note = str(f) +"." +entry.get()
+    notes.insert(1000, new_note)
 
 
 root = Tk()
 root.title("Notes")
-root.geometry("300x300")
-
-label = ttk.Label()
-label.pack(anchor=NW, padx=6, pady=6)
-label2 = ttk.Label()
-label2.pack(anchor=NW, padx=6, pady=6)
-label["text"] = "Введите заметку в поле ввода"
-label2["text"] = "Чтобы удалить заметку просто нажмите на неё"
+root.geometry("300x250")
+root.rowconfigure(index=0, weight=1)
+root.rowconfigure(index=1, weight=3)
+root.rowconfigure(index=2, weight=1)
 
 entry = ttk.Entry()
-entry.pack(anchor=NW, padx=6, pady=6)
+entry.grid(column=0, row=0, padx=6, pady=6, sticky=EW)
+ttk.Button(text="Добавить", command=add_note).grid(column=1, row=0, padx=6, pady=6)
 
-btn = ttk.Button(text="Добавить заметку", command=add_note)
-btn.pack(anchor=NW, padx=6, pady=6)
+notes = Listbox()
+notes.grid(row=1, column=0, columnspan=2, sticky=EW, padx=5, pady=5)
+
+ttk.Button(text="Удалить", command=delete_note).grid(row=2, column=1, padx=5, pady=5)
 
 root.mainloop()
