@@ -6,7 +6,22 @@ f = 0
 lst = []
 
 def edit_note():
-    print("Пока что такой функции нет")
+    try:
+        with open("jsonchek.json", 'r') as file:
+            data = json.load(file)
+        selection2 = notes.curselection()
+        selection2 = str(selection2)
+        index = int(selection2[1])
+        selection = notes.curselection()
+        notes.delete(selection[0])
+
+        del lst[index]
+
+        with open("jsonchek.json", 'w') as file:
+            json.dump(lst, file)
+    except:
+        selection = notes.curselection()
+        notes.delete(selection[0])
 def restore_notes():
     global f
     global lst
@@ -15,10 +30,12 @@ def restore_notes():
     for i in lst:
         f += 1
         proverka = i[:2]
-        print(proverka)
+        proverka2 = i[:3]
         try:
-            if int(proverka) >= 10:
+            if int(proverka) >= 10  and int(proverka)  < 100:
                 result = i[:1] + str(f) + i[1:]
+            if int(proverka2) >= 100 and int(proverka2) < 1000:
+                result = i[:2] + str(f) + i[1:]
         except:
                 result = i[:0] + str(f) + i[1:]
         notes.insert(1000, result)
