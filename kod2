@@ -4,9 +4,10 @@ import json
 
 f = 0
 lst = []
-
 def edit_note():
+    global index
     try:
+        x = 1
         with open("jsonchek.json", 'r') as file:
             data = json.load(file)
         selection2 = notes.curselection()
@@ -15,11 +16,10 @@ def edit_note():
         selection = notes.curselection()
         notes.delete(selection[0])
 
-        del lst[index]
-
         with open("jsonchek.json", 'w') as file:
             json.dump(lst, file)
     except:
+        x = 1
         selection = notes.curselection()
         notes.delete(selection[0])
 def restore_notes():
@@ -60,13 +60,25 @@ def delete_note( ):
 def add_note():
     global f
     f += 1
-    with open('jsonchek.json', 'r') as fcc_file:
-        lst = json.load(fcc_file)
-    new_note = str(f) + "." + entry.get()
-    lst.append(new_note)
-    with open('jsonchek.json', 'w') as file:
-        json.dump(lst, file)
-    notes.insert(1000, new_note)
+    global x
+    if x == 1:
+        with open('jsonchek.json', 'r') as fcc_file:
+            lst = json.load(fcc_file)
+        new_note = str(f) + "." + entry.get()
+        lst[index] = new_note
+
+        with open('jsonchek.json', 'w') as file:
+            json.dump(lst, file)
+        notes.insert(1000, new_note)
+        x = 0
+    else:
+        with open('jsonchek.json', 'r') as fcc_file:
+            lst = json.load(fcc_file)
+        new_note = str(f) + "." + entry.get()
+        lst.append(new_note)
+        with open('jsonchek.json', 'w') as file:
+            json.dump(lst, file)
+        notes.insert(1000, new_note)
 
 
 root = Tk()
