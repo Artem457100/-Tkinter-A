@@ -43,6 +43,8 @@ def add_note():
     f += 1
     with open("jsonchek.json", 'r') as file:
         lst = json.load(file)
+    if entry.get() != '':
+
     new_note = str(f) + "." + entry.get()
     lst.append(new_note)
     with open('jsonchek.json', 'w') as file:
@@ -71,3 +73,5 @@ ttk.Button(text="Восстановить заметки", command=restore_notes
 ttk.Button(text="Редактировать", command=edit_note).grid(row=0, column=3, padx=5, pady=5)
 
 root.mainloop()
+#7060875399:AAG2WCXUVqIaiQ84Arz0Jg5GCAClDHuPkIU
+#токен бота
