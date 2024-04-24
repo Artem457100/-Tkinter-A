@@ -40,16 +40,17 @@ def delete_note():
 
 def add_note():
     global f
-    f += 1
     with open("jsonchek.json", 'r') as file:
         lst = json.load(file)
-    if entry.get() != '':
-
-    new_note = str(f) + "." + entry.get()
-    lst.append(new_note)
-    with open('jsonchek.json', 'w') as file:
-        json.dump(lst, file)
-    notes.insert(END, new_note)
+    if entry.get() == '':
+        new_note = ''
+    else:
+        f += 1
+        new_note = str(f) + "." + entry.get()
+        lst.append(new_note)
+        with open('jsonchek.json', 'w') as file:
+            json.dump(lst, file)
+        notes.insert(END, new_note)
 
 root = Tk()
 root.iconbitmap(r'C:\Users\Unicum_Student\Downloads\jsonchek.ico')
@@ -73,4 +74,3 @@ ttk.Button(text="Восстановить заметки", command=restore_notes
 ttk.Button(text="Редактировать", command=edit_note).grid(row=0, column=3, padx=5, pady=5)
 
 root.mainloop()
-
