@@ -1,1 +1,69 @@
+import telebot
+import time
+from telebot import types
+from datetime import datetime
+
+token = ''
+bot = telebot.TeleBot(token)
+time1 = 1
+minutes1 = 2
+time2 = 3
+minutes2 = 4
+time3 = 5
+minutes3 = 6
+BOT_URL = "URL"
+
+while True:
+    time.sleep(1)
+    if datetime.now().strftime("%H:%M") == f'{input_time1}':
+        print('pass')
+        bot.send_message(6040930193, 'text')
+        break
+while True:
+    time.sleep(1)
+    if datetime.now().strftime("%H:%M") == f'{input_time2}':
+        print('pass')
+        bot.send_message(6040930193, 'Напоминание, проверьте свои заметки')
+        break
+while True:
+    time.sleep(1)
+    if datetime.now().strftime("%H:%M") == f'{input_time3}':
+        print('pass')
+        bot.send_message(6040930193, 'text')
+        break
+
+
+@bot.message_handler(commands=['start'])
+def start_message(message):
+    bot.send_message(message.chat.id, 'Привет')
+
+
+@bot.message_handler(commands=['button'])
+def button_message(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = types.KeyboardButton("Кнопка")
+    markup.add(item1)
+    bot.send_message(message.chat.id, 'Выберите что вам надо', reply_markup=markup)
+
+
+@bot.message_handler(content_types='text')
+def message_reply(message):
+    if message.text == "Мои заметки":
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        reminder1 = types.KeyboardButton("Заметка 1")
+        reminder2 = types.KeyboardButton("Заметка 2")
+        reminder3 = types.KeyboardButton("Заметка 3")
+        markup.add(reminder1)
+        markup.add(reminder2)
+        markup.add(reminder3)
+        bot.send_message(message.chat.id, 'Выберите что вам надо', reply_markup=markup)
+    elif message.text == "Заметка 1":
+        bot.send_message(message.chat.id, f'Следующее уведомление придёт через: {time1} часа и {minutes1} минут')
+    elif message.text == "Заметка 2":
+        bot.send_message(message.chat.id, f'Следующее уведомление придёт через: {time2} часа и {minutes2} минут')
+    elif message.text == "Заметка 3":
+        bot.send_message(message.chat.id, f'Следующее уведомление придёт через: {time3} часа и {minutes3} минут')
+
+
+bot.infinity_polling()
 
