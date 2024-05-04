@@ -4,7 +4,15 @@ import json
 
 f = 0
 lst = []
-
+lst2 = []
+def add_notification():
+    global lst2
+    with open("jsonchek2.json", 'r') as file:
+        lst2 = json.load(file)
+    new_notification = entry.get()
+    lst2.append(new_notification)
+    with open('jsonchek2.json', 'w') as file:
+        json.dump(lst2, file)
 def edit_note():
     index = notes.curselection()[0]
     with open("jsonchek.json", 'r') as file:
@@ -53,7 +61,7 @@ def add_note():
         notes.insert(END, new_note)
 
 root = Tk()
-root.iconbitmap(r'C:\Users\Unicum_Student\Downloads\jsonchek.ico')
+root.iconbitmap(r'C:\Users\Admin\Desktop\jsonchek.ico')
 root.title("Notes")
 root.geometry("400x300")
 root.rowconfigure(index=0, weight=1)
@@ -72,5 +80,7 @@ ttk.Button(text="Удалить", command=delete_note).grid(row=2, column=1, pad
 ttk.Button(text="Восстановить заметки", command=restore_notes).grid(row=2, column=0, padx=5, pady=5)
 
 ttk.Button(text="Редактировать", command=edit_note).grid(row=0, column=3, padx=5, pady=5)
+
+ttk.Button(text="Добавить уведомление", command=add_notification).grid(row=1, column=3, padx=5, pady=5)
 
 root.mainloop()
