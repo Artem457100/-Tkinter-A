@@ -7,8 +7,6 @@ lst = []
 lst2 = []
 def add_notification():
     global lst2
-    with open("jsonchek2.json", 'r') as file:
-        lst2 = json.load(file)
     new_notification = entry.get()
     lst2.append(new_notification)
     with open('jsonchek2.json', 'w') as file:
@@ -60,6 +58,17 @@ def add_note():
             json.dump(lst, file)
         notes.insert(END, new_note)
 
+def rewrite_json():
+    with open('jsonchek.json', 'r+') as file:
+        file.seek(0)
+        json.dump(lst, file)
+        file.truncate()
+
+def load_json():
+    with open("jsonchek.json", 'r') as file:
+        data = json.load(file)
+    return data
+
 root = Tk()
 root.iconbitmap(r'C:\Users\Admin\Desktop\jsonchek.ico')
 root.title("Notes")
@@ -82,5 +91,15 @@ ttk.Button(text="Восстановить заметки", command=restore_notes
 ttk.Button(text="Редактировать", command=edit_note).grid(row=0, column=3, padx=5, pady=5)
 
 ttk.Button(text="Добавить уведомление", command=add_notification).grid(row=1, column=3, padx=5, pady=5)
+
+lst = load_json()
+for i in range(len(lst)):
+    s = lst[i]
+    ind = s.find('.')
+    sa = str(i + 1) + s[ind:]
+    lst[i] = sa
+rewrite_json()
+
+lst = []
 
 root.mainloop()
