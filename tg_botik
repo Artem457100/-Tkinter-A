@@ -2,34 +2,38 @@ import telebot
 import time
 import json
 
-bot = telebot.TeleBot('')
+bot = telebot.TeleBot('7060875399:AAG2WCXUVqIaiQ84Arz0Jg5GCAClDHuPkIU')
 
 
 @bot.message_handler(commands=['start'])
 def set_reminder(message):
     try:
         chat_id = message.chat.id
-        bot.register_next_step_handler(message, set_time)
+        bot.send_message(chat_id, "Скоро по таймеру придёт сообщение")
+        #bot.register_next_step_handler(message, set_time)
+        lst = []
+        with open("jsonchek2.json", 'r') as file:
+            lst = json.load(file)
+        message.text = lst[0]
+        set_time(message)
     except Exception as e:
-        bot.reply_to(message, 'An error occurred.')
+        bot.reply_to(message, 'ОШИБКА')
 
 
 def set_time(message):
     try:
         chat_id = message.chat.id
-        with open("jsonchek2.json", 'r') as file:
-            lst2 = json.load(file)
-        reminder_time = lst2[0]
+        reminder_time = message.text
         current_time = time.strftime('%H:%M')
 
         while current_time != reminder_time:
             time.sleep(1)
             current_time = time.strftime('%H:%M')
 
-        bot.send_message(chat_id, "Reminder: It's time!")
+        bot.send_message(chat_id, "Пришло время проверить заметки")
 
     except Exception as e:
-        bot.reply_to(message, 'An error occurred.')
+        bot.reply_to(message, 'ОШИБКА')
 
 
 bot.polling()
