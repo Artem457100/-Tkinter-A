@@ -2,7 +2,7 @@ import telebot
 import time
 import json
 
-bot = telebot.TeleBot('7060875399:AAG2WCXUVqIaiQ84Arz0Jg5GCAClDHuPkIU')
+bot = telebot.TeleBot('')
 
 
 @bot.message_handler(commands=['start'])
